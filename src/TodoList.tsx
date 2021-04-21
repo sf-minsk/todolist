@@ -16,21 +16,38 @@ export type PropsType = {
 }
 
 export const TodoList = (props: PropsType) => {
+
     const [newTaskName, setNewTaskName] = useState('')
-    const addNewTask = () => {props.addTask(newTaskName); setNewTaskName('')}
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {setNewTaskName(e.currentTarget.value)}
+    const [error, setError] = useState<boolean>(false)
+
+    const addNewTask = () => {
+        const trimmedTitle = newTaskName.trim()
+        if (trimmedTitle) {
+        props.addTask(newTaskName.trim()) }
+        else {setError(true)}
+        setNewTaskName('')
+    }
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewTaskName(e.currentTarget.value)
+        setError(false)
+
+    }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && e.currentTarget.value) {addNewTask()}}
     const onAllClickHandler = () => {props.changeFilter('all')}
     const onActiveClickHandler = () => {props.changeFilter('active')}
     const onCompletedClickHandler = () => {props.changeFilter('completed')}
 
+
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={newTaskName} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-                <button onClick={addNewTask}>+</button>
+                <input placeholder={error ? 'Input a correct value' : ''}
+                       value={newTaskName}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}/>
+                <button onClick={addNewTask} >+</button>
             </div>
             <ul>
                 {props.tasks.map(t => {
