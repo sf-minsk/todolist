@@ -3,7 +3,7 @@
   display: flex;
 }
 
-.App > div {
+.App div {
   margin-right: 50px;
 }
 
@@ -17,4 +17,15 @@
 
 .error {
   border: 2px solid red;
+}
+
+.task {
+  width: 210px;
+  list-style-type: none;
+  margin-left: -45px;
+}
+
+.task button {
+  color: red;
+  float: right;
 }
