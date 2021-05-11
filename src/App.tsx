@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
-import {TodoList} from "./TodoList";
+import {TaskType, TodoList} from "./TodoList";
+import {AddItemForm} from "./AddItemForm";
+import {getByTitle} from "@testing-library/react";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
+}
+
+
+type TasksStateType = {
+    [key: string]: Array<TaskType>
 }
 
 export const App = () => {
@@ -38,11 +45,12 @@ export const App = () => {
         }
     }
     const removeTodoList = (todolistId: string) => {
-      const filteredTodoLists =  todoLists.filter((tl)=> tl.id !== todolistId)
+        const filteredTodoLists = todoLists.filter((tl) => tl.id !== todolistId)
         setTodoLists(filteredTodoLists)
         delete tasksObj[todolistId]
         setTasks({...tasksObj})
     }
+
 
     const todolistId1 = v1()
     const todolistId2 = v1()
@@ -52,7 +60,7 @@ export const App = () => {
         {id: todolistId2, title: 'What to buy', filter: 'all'}
     ])
 
-    const [tasksObj, setTasks] = useState({
+    const [tasksObj, setTasks] = useState<TasksStateType>({
         [todolistId1]: [
             {id: v1(), title: 'CSS&HTML', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -66,6 +74,18 @@ export const App = () => {
             {id: v1(), title: 'Cheese', isDone: false}
         ]
     })
+
+    function AddTodoList(title: string) {
+        let todoList: TodoListType = {
+            id: v1(),
+            filter: 'all',
+            title: title
+        };
+        setTodoLists([...todoLists, todoList])
+        setTasks({
+            ...tasksObj, [todoList.id]: []
+        })
+    }
 
     return (
         <div className="App">
@@ -95,6 +115,9 @@ export const App = () => {
                         removeTodoList={removeTodoList}
                     />
                 })}
+            <AddItemForm addItem={(title: string) => {
+                AddTodoList(title)
+            }}/>
         </div>
     )
 }
