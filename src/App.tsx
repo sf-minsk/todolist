@@ -37,6 +37,16 @@ export const App = () => {
             setTasks({...tasksObj})
         }
     }
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        const tasks = tasksObj[todolistId]
+        const task = tasks.find(t => t.id === taskId)
+        if (task) {
+            task.title = newTitle
+            setTasks({...tasksObj})
+        }
+    }
+
+
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
         const todoList = todoLists.find(tl => tl.id === todolistId);
         if (todoList) {
@@ -49,6 +59,14 @@ export const App = () => {
         setTodoLists(filteredTodoLists)
         delete tasksObj[todolistId]
         setTasks({...tasksObj})
+    }
+
+    function changeTodoListTitle(id: string, newTitle: string) {
+        const todolist = todoLists.find(tl => tl.id === id)
+        if (todolist) {
+            todolist.title = newTitle
+            setTodoLists([...todoLists])
+        }
     }
 
 
@@ -112,7 +130,9 @@ export const App = () => {
                         changeFilter={changeFilter}
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
+                        changeTaskTitle={changeTaskTitle}
                         removeTodoList={removeTodoList}
+                        changeTodoListTitle={changeTodoListTitle}
                     />
                 })}
             <AddItemForm addItem={(title: string) => {
