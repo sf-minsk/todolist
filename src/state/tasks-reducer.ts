@@ -57,16 +57,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
             const tasks = state[action.todoListId]
-            const filteredTasks = tasks.filter(t => t.id !== action.taskId)
-            stateCopy[action.todoListId] = filteredTasks
+            stateCopy[action.todoListId] = tasks.filter(t => t.id !== action.taskId)
             return stateCopy
         }
         case 'ADD-TASK': {
             const stateCopy = {...state}
             const tasks = stateCopy[action.todoListId]
             const newTask = {id: v1(), title: action.taskTitle, isDone: false}
-            const newTasks = [newTask, ...tasks]
-            stateCopy[action.todoListId] = newTasks
+            stateCopy[action.todoListId] = [newTask, ...tasks]
             return stateCopy
         }
         case 'CHANGE-TASK-STATUS': {

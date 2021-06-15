@@ -51,7 +51,7 @@ export const TodoList = (props: PropsType) => {
             <h3>
                 <EditableSpan title={props.title} onChange={changeTodoListTitle}/>
                 <IconButton aria-label={'delete'} onClick={removeTodoList}>
-                    <Delete />
+                    <Delete/>
                 </IconButton>
             </h3>
             <AddItemForm addItem={AddTask}/>
@@ -73,7 +73,7 @@ export const TodoList = (props: PropsType) => {
                         <EditableSpan title={t.title} onChange={onChangeTitleHandler}/>
 
                         <IconButton aria-label={'delete'} onClick={onRemoveTaskHandler}>
-                            <Delete />
+                            <Delete/>
                         </IconButton>
                     </div>
                 })}
