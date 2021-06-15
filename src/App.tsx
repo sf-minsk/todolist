@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, TodoList} from "./TodoList";
 import {AddItemForm} from "./AddItemForm";
@@ -23,41 +23,43 @@ export type TasksStateType = {
 
 export const App = () => {
 
+    console.log('app was render')
+
     const dispatch = useDispatch()
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    function addTask(title: string, todolistId: string) {
+    const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskAC(title, todolistId))
-    }
+    }, [dispatch])
 
-    function removeTask(id: string, todolistId: string) {
+    const removeTask = useCallback((id: string, todolistId: string) => {
         dispatch(removeTaskAC(id, todolistId))
-    }
+    }, [dispatch])
 
-    function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
+    const changeStatus = useCallback((taskId: string, isDone: boolean, todolistId: string) => {
         dispatch(changeTaskStatusAC(taskId, isDone, todolistId))
-    }
+    }, [dispatch])
 
-    function changeTaskTitle(taskId: string, newTitle: string, todolistId: string) {
+    const changeTaskTitle = useCallback((taskId: string, newTitle: string, todolistId: string) => {
         dispatch(changeTaskTitleAC(taskId, newTitle, todolistId))
-    }
+    }, [dispatch])
 
-    function changeFilter(value: FilterValuesType, todolistId: string) {
+    const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(changeTodoLisFilterAC(value, todolistId))
-    }
+    }, [dispatch])
 
-    function removeTodoList(todolistId: string) {
+    const removeTodoList = useCallback((todolistId: string) => {
         dispatch(removeTodoListAC(todolistId))
-    }
+    }, [dispatch])
 
-    function changeTodoListTitle(id: string, newTitle: string) {
+    const changeTodoListTitle = useCallback((id: string, newTitle: string) => {
         dispatch(changeTodoListTitleAC(id, newTitle))
-    }
+    }, [dispatch])
 
-    function AddTodoList(title: string) {
+    const AddTodoList = useCallback((title: string) => {
         dispatch(addTodoListAC(title))
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -74,29 +76,18 @@ export const App = () => {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '30px'}}>
-                    <AddItemForm addItem={(title: string) => {
-                        AddTodoList(title)
-                    }}/>
+                    <AddItemForm addItem={AddTodoList}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {
                         todoLists.map((tl) => {
                             let tasksForTodoList = tasks[tl.id]
-                            switch (tl.filter) {
-                                case 'completed':
-                                    tasksForTodoList = tasks[tl.id].filter(t => t.isDone)
-                                    break;
-                            }
-                            switch (tl.filter) {
-                                case 'active':
-                                    tasksForTodoList = tasks[tl.id].filter(t => !t.isDone)
-                                    break;
-                            }
-                            return <Grid key={tl.id} item>
+
+                            return <Grid item key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <TodoList
                                         key={tl.id}
-                                        id={tl.id}
+                                        todoListId={tl.id}
                                         title={tl.title}
                                         removeTask={removeTask}
                                         tasks={tasksForTodoList}

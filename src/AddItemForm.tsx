@@ -6,18 +6,14 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+    console.log('item form was render')
     const [newTaskName, setNewTaskName] = useState('')
     const [error, setError] = useState<boolean>(false)
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskName(e.currentTarget.value)
         setError(false)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && e.currentTarget.value) {
-            addNewTask()
-        }
     }
     const addNewTask = () => {
         if (newTaskName.trim()) {
@@ -28,6 +24,11 @@ export function AddItemForm(props: AddItemFormPropsType) {
         setNewTaskName('')
     }
 
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && newTaskName) {
+            addNewTask()
+        }
+    }
     return <div>
         <TextField
             helperText={error ? 'Input a correct value' : ''}
@@ -45,4 +46,4 @@ export function AddItemForm(props: AddItemFormPropsType) {
             <ControlPoint/>
         </IconButton>
     </div>
-}
+})
