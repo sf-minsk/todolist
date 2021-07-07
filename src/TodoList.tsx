@@ -79,16 +79,16 @@ export const TodoList = React.memo(({
                 </IconButton>
             </h3>
             <AddItemForm addItem={AddTask}/>
-            <div>
-                {tasksForTodoList.map(t => <Task key={t.id}
-                                                 task={t}
-                                                 changeTaskStatus={changeTaskStatus}
-                                                 changeTaskTitle={changeTaskTitle}
-                                                 todoListId={todoListId}
-                                                 removeTask={removeTask}
-                    />
-                )}
-            </div>
+            {/*<div>*/}
+            {/*    {tasksForTodoList.map(t => <Task key={t.id}*/}
+            {/*                                     task={t}*/}
+            {/*                                     changeTaskStatus={changeTaskStatus}*/}
+            {/*                                     changeTaskTitle={changeTaskTitle}*/}
+            {/*                                     todoListId={todoListId}*/}
+            {/*                                     removeTask={removeTask}*/}
+            {/*        />*/}
+            {/*    )}*/}
+            {/*</div>*/}
             <div>
                 <Button
                     style={{margin: '2px'}}
