@@ -21,8 +21,8 @@ export type PropsType = {
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-    todoListId: string
-    removeTodoList: (id: string) => void
+    id: string
+    removeTodoList: (todolistId: string) => void
     changeTodoListTitle: (id: string, newTitle: string) => void
 }
 
@@ -35,31 +35,32 @@ export const TodoList = React.memo(({
                                         addTask,
                                         changeTaskStatus,
                                         changeTaskTitle,
-                                        todoListId,
+                                        id,
                                         removeTodoList,
                                         changeTodoListTitle,
                                     }: PropsType) => {
 
     console.log('todolist was render')
-
+debugger
     const onAllClickHandler = useCallback(() => {
-        changeFilter('all', todoListId)
-    }, [changeFilter, todoListId])
+        changeFilter('all', id)
+    }, [changeFilter, id])
     const onActiveClickHandler = useCallback(() => {
-        changeFilter('active', todoListId)
-    }, [changeFilter, todoListId])
+        changeFilter('active', id)
+    }, [changeFilter, id])
     const onCompletedClickHandler = useCallback(() => {
-        changeFilter('completed', todoListId)
-    }, [changeFilter, todoListId])
+        changeFilter('completed', id)
+    }, [changeFilter, id])
     const removeTodoListHandler = () => {
-        removeTodoList(todoListId)
+        debugger
+        removeTodoList(id)
     }
     const AddTask = useCallback((title: string) => {
-        addTask(title, todoListId)
-    }, [addTask, todoListId])
+        addTask(title, id)
+    }, [addTask, id])
     const changeTodoListTitleHandler = useCallback((newTitle: string) => {
-        changeTodoListTitle(todoListId, newTitle)
-    }, [changeTodoListTitle, todoListId])
+        changeTodoListTitle(id, newTitle)
+    }, [changeTodoListTitle, id])
 
     let tasksForTodoList = tasks
 

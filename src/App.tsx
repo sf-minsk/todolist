@@ -5,11 +5,11 @@ import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-    addTodolistAC,
+    addTodolistTC,
     changeTodolisFilterAC,
     changeTodolistTitleAC,
     fetchTodolistsTC,
-    removeTodolistAC
+    removeTodolistTC
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -42,6 +42,14 @@ export const App = () => {
         dispatch(thunk)
     }, [])
 
+    const AddTodoList = useCallback((title: string) => {
+        dispatch(addTodolistTC(title))
+    }, [dispatch])
+    const removeTodoList = useCallback((id: string) => {
+        dispatch(removeTodolistTC(id))
+    }, [dispatch])
+
+
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskAC(title, todolistId))
     }, [dispatch])
@@ -62,18 +70,10 @@ export const App = () => {
         dispatch(changeTodolisFilterAC(value, todolistId))
     }, [dispatch])
 
-    const removeTodoList = useCallback((todolistId: string) => {
-        dispatch(removeTodolistAC(todolistId))
-    }, [dispatch])
 
     const changeTodoListTitle = useCallback((id: string, newTitle: string) => {
         dispatch(changeTodolistTitleAC(id, newTitle))
     }, [dispatch])
-
-    const AddTodoList = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
-    }, [dispatch])
-
 
 
     return (
@@ -103,7 +103,7 @@ export const App = () => {
                                 <Paper style={{padding: '10px'}}>
                                     <TodoList
                                         key={tl.id}
-                                        todoListId={tl.id}
+                                        id={tl.id}
                                         title={tl.title}
                                         removeTask={removeTask}
                                         tasks={tasksForTodoList}
