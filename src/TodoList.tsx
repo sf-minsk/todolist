@@ -1,20 +1,15 @@
 import React, {useCallback} from "react";
-import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {Task} from "./Task";
+import {TasksStateType} from "./state/tasks-reducer";
+import { FilterValuesType } from "./state/todolists-reducer";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 export type PropsType = {
     title: string
-    tasks: Array<TaskType>
+    tasks: TasksStateType
     filter: FilterValuesType
     removeTask: (taskID: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
@@ -41,7 +36,7 @@ export const TodoList = React.memo(({
                                     }: PropsType) => {
 
     console.log('todolist was render')
-debugger
+    debugger
     const onAllClickHandler = useCallback(() => {
         changeFilter('all', id)
     }, [changeFilter, id])
@@ -64,12 +59,12 @@ debugger
 
     let tasksForTodoList = tasks
 
-    if (filter === 'completed') {
-        tasksForTodoList = tasks.filter(t => t.isDone)
-    }
-    if (filter === 'active') {
-        tasksForTodoList = tasks.filter(t => !t.isDone)
-    }
+    // if (filter === 'completed') {
+    //     tasksForTodoList = tasks.filter(t => t.isDone)
+    // }
+    // if (filter === 'active') {
+    //     tasksForTodoList = tasks.filter(t => !t.isDone)
+    // }
 
     return (
         <div>
