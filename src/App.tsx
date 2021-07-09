@@ -15,12 +15,12 @@ import {
 import {
     addTaskTC,
     removeTaskTC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
+    updateTaskTC,
     TasksStateType,
 } from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {TaskStatuses} from "./api/todolists-api";
 
 
 export const App = () => {
@@ -29,8 +29,7 @@ export const App = () => {
     const todoLists = useSelector<AppRootStateType, Array<TodolistStateType>>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     useEffect(() => {
-        const thunk = fetchTodolistsTC()
-        dispatch(thunk)
+        dispatch(fetchTodolistsTC())
     }, [dispatch])
 
     //todolists actions
@@ -54,11 +53,11 @@ export const App = () => {
     const removeTask = useCallback((id: string, todolistId: string) => {
         dispatch(removeTaskTC(todolistId, id))
     }, [dispatch])
-    const changeStatus = useCallback((taskId: string, isDone: boolean, todolistId: string) => {
-        dispatch(changeTaskStatusAC(taskId, isDone, todolistId))
+    const changeStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskTC(todolistId, taskId, {status: status}))
     }, [dispatch])
-    const changeTaskTitle = useCallback((taskId: string, newTitle: string, todolistId: string) => {
-        dispatch(changeTaskTitleAC(taskId, newTitle, todolistId))
+    const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
+        dispatch(updateTaskTC(todolistId, taskId, {title: title}))
     }, [dispatch])
 
     return (
@@ -79,10 +78,8 @@ export const App = () => {
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container spacing={5}>
-                    {
-                        todoLists.map((tl) => {
+                    {todoLists.map((tl) => {
                             let tasksForTodoList = tasks[tl.id]
-
                             return <Grid item key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <TodoList
@@ -101,8 +98,8 @@ export const App = () => {
                                     />
                                 </Paper>
                             </Grid>
-                        })
-                    }
+                        }
+                    )}
                 </Grid>
             </Container>
         </div>

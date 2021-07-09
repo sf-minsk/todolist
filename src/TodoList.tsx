@@ -18,26 +18,28 @@ export type PropsType = {
     filter: FilterValuesType
     addTask: (title: string, todolistId: string) => void
     removeTask: (taskID: string, todolistId: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+    changeTaskStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     changeTodoListTitle: (id: string, newTitle: string) => void
     removeTodoList: (todolistId: string) => void
 }
 
-export const TodoList = React.memo(({
-                                        id,
-                                        title,
-                                        tasks,
-                                        filter,
-                                        addTask,
-                                        removeTask,
-                                        changeTaskStatus,
-                                        changeTaskTitle,
-                                        changeFilter,
-                                        changeTodoListTitle,
-                                        removeTodoList,
-                                    }: PropsType) => {
+export const TodoList = React.memo((props: PropsType) => {
+    const {
+        id,
+        title,
+        tasks,
+        filter,
+        addTask,
+        removeTask,
+        changeTaskStatus,
+        changeTaskTitle,
+        changeFilter,
+        changeTodoListTitle,
+        removeTodoList,
+    } = props
+
     //start
     const dispatch = useDispatch()
     useEffect(() => {
@@ -85,15 +87,15 @@ export const TodoList = React.memo(({
             </h3>
             <AddItemForm addItem={AddTask}/>
             <div>
-                {
-                    tasksForTodoList.map(t => <Task key={t.id}
-                                                    todoListId={id}
-                                                    task={t}
-                                                    removeTask={removeTask}
-                                                    changeTaskStatus={changeTaskStatus}
-                                                    changeTaskTitle={changeTaskTitle}
-                        />
-                    )}
+                {tasksForTodoList.map(t => <Task
+                        key={t.id}
+                        todoListId={id}
+                        task={t}
+                        removeTask={removeTask}
+                        changeTaskStatus={changeTaskStatus}
+                        changeTaskTitle={changeTaskTitle}
+                    />
+                )}
             </div>
             <div>
                 <Button
