@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 
-
 export const todoListsReducer = (state: Array<TodolistStateType> = [], action: ActionsType): Array<TodolistStateType> => {
     switch (action.type) {
         case 'TODOLIST/SET-TODOLISTS': {
@@ -27,7 +26,6 @@ export const todoListsReducer = (state: Array<TodolistStateType> = [], action: A
             return state
     }
 }
-
 
 // Action Creators
 export const setTodolistsAC = (todolists: Array<TodolistType>) => {
@@ -63,7 +61,6 @@ export const changeTodolisFilterAC = (filter: FilterValuesType, todolistId: stri
     } as const
 }
 
-
 // THUNK Creators
 export const fetchTodolistsTC = () => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.getTodolists()
@@ -81,20 +78,18 @@ export const removeTodolistTC = (todolistid: string) => (dispatch: Dispatch<Acti
     todolistsAPI.deleteTodolist(todolistid)
         .then(() => dispatch(removeTodolistAC(todolistid)))
 }
-export const ChangeTodolistTitleTC = (todolistid: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
+export const changeTodolistTitleTC = (todolistid: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.updateTodolist(todolistid, title)
         .then(() => {
             dispatch(changeTodolistTitleAC(todolistid, title))
         })
 }
 
-
 // Types
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistStateType = TodolistType & {
     filter: FilterValuesType,
 }
-
 export type SetTodolistActionType = ReturnType<typeof setTodolistsAC>
 export type AddTodoListActionType = ReturnType<typeof addTodolistAC>
 export type RemoveTodoListActionType = ReturnType<typeof removeTodolistAC>

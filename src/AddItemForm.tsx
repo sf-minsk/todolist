@@ -7,7 +7,6 @@ type AddItemFormPropsType = {
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
-    console.log('item form was render')
     const [newTaskName, setNewTaskName] = useState('')
     const [error, setError] = useState<boolean>(false)
 
@@ -23,12 +22,12 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
         }
         setNewTaskName('')
     }
-
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && newTaskName) {
             addNewTask()
         }
     }
+
     return <div>
         <TextField
             helperText={error ? 'Input a correct value' : ''}
