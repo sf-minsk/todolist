@@ -4,6 +4,7 @@ import {ControlPoint} from "@material-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -36,9 +37,12 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
             value={newTaskName}
             variant={"outlined"}
             onChange={onChangeInputHandler}
-            onKeyPress={onKeyPressHandler}/>
+            onKeyPress={onKeyPressHandler}
+            disabled={props.disabled}
+        />
+
         <IconButton
-            disabled={!newTaskName}
+            disabled={!newTaskName || props.disabled}
             onClick={addNewTask}
             color={"primary"}
         >

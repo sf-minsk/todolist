@@ -31,6 +31,7 @@ export const TodolistsList: React.FC = () => {
         dispatch(fetchTodolistsTC())
     }, [dispatch])
 
+
     //todolists actions
     const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistTC(title))
@@ -82,6 +83,7 @@ export const TodolistsList: React.FC = () => {
                                     changeFilter={changeFilter}
                                     changeTodoListTitle={changeTodoListTitle}
                                     removeTodoList={removeTodoList}
+                                    processStatus={tl.processStatus}
                                 />
                             </Paper>
                         </Grid>

@@ -8,6 +8,7 @@ import {FilterValuesType} from "../../../state/todolists-reducer";
 import {useDispatch} from "react-redux";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {Task} from "./Task/Task";
+import {RequestStatusType} from "../../../state/app-reducer";
 
 export type PropsType = {
     id: string
@@ -21,9 +22,12 @@ export type PropsType = {
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     changeTodoListTitle: (id: string, newTitle: string) => void
     removeTodoList: (todolistId: string) => void
+    processStatus: RequestStatusType
 }
 
 export const TodoList = React.memo((props: PropsType) => {
+
+
     const {
         id,
         title,
@@ -36,6 +40,7 @@ export const TodoList = React.memo((props: PropsType) => {
         changeFilter,
         changeTodoListTitle,
         removeTodoList,
+        processStatus,
     } = props
 
     //start
@@ -79,11 +84,15 @@ export const TodoList = React.memo((props: PropsType) => {
         <div>
             <h3>
                 <EditableSpan title={title} onChange={changeTodoListTitleHandler}/>
-                <IconButton aria-label={'delete'} onClick={removeTodoListHandler}>
+                <IconButton
+                    aria-label={'delete'}
+                    onClick={removeTodoListHandler}
+                    disabled={processStatus === 'loading'}
+                >
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={AddTask}/>
+            <AddItemForm addItem={AddTask} disabled={processStatus === "loading"}/>
             <div>
                 {tasksForTodoList.map(t => <Task
                         key={t.id}
