@@ -26,8 +26,6 @@ export type PropsType = {
 }
 
 export const TodoList = React.memo((props: PropsType) => {
-
-
     const {
         id,
         title,
@@ -101,6 +99,7 @@ export const TodoList = React.memo((props: PropsType) => {
                         removeTask={removeTask}
                         changeTaskStatus={changeTaskStatus}
                         changeTaskTitle={changeTaskTitle}
+                        processStatus={t.processStatus === "succeeded"}
                     />
                 )}
             </div>
