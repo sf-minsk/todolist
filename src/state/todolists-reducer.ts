@@ -69,18 +69,18 @@ export const fetchTodolistsTC = (): AppThunkType => async dispatch => {
 }
 export const addTodolistTC = (title: string): AppThunkType => async dispatch => {
     dispatch(setAppStatusAC('loading'))
-    const res = await todolistsAPI.createTodolist(title)
-    if (res.data.resultCode === 0) {
-        dispatch(addTodolistAC(res.data.data.item))
-        dispatch(setAppStatusAC('succeeded'))
-    } else {
-        if (res.data.messages.length) {
-            dispatch(setAppErrorAC(res.data.messages[0]))
+        const res = await todolistsAPI.createTodolist(title)
+        if (res.data.resultCode === 0) {
+            dispatch(addTodolistAC(res.data.data.item))
+            dispatch(setAppStatusAC('succeeded'))
         } else {
-            dispatch(setAppErrorAC('Some Error occurred'))
+            if (res.data.messages.length) {
+                dispatch(setAppErrorAC(res.data.messages[0]))
+            } else {
+                dispatch(setAppErrorAC('Some Error occurred'))
+            }
+            dispatch(setAppStatusAC('failed'))
         }
-        dispatch(setAppStatusAC('failed'))
-    }
 }
 export const removeTodolistTC = (todolistid: string): AppThunkType => async dispatch => {
     dispatch(changeTodolistProcessStatusAC(todolistid, "loading"))
