@@ -10,7 +10,7 @@ export const tasksReducer = (state: TasksStateType = {}, action: TaskActionsType
             return {...state, [action.todolistId]: action.tasks.map(t => ({...t, processStatus: 'succeeded'}))}
         }
         case 'TODOLIST/ADD-TASK': {
-            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
+            return {...state, [action.task.todoListId]: [{...action.task, processStatus: 'succeeded'}, ...state[action.task.todoListId]]}
         }
         case 'TODOLIST/REMOVE-TASK': {
             return {...state, [action.todoListId]: state[action.todoListId].filter(t => t.id !== action.taskId)}

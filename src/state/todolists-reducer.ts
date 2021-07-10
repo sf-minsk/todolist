@@ -98,6 +98,7 @@ export const removeTodolistTC = (todolistid: string): AppThunkType => async disp
     }
 }
 export const changeTodolistTitleTC = (todolistid: string, title: string): AppThunkType => async dispatch => {
+    dispatch(changeTodolistProcessStatusAC(todolistid, "loading"))
     dispatch(setAppStatusAC('loading'))
     try {
         const res = await todolistsAPI.updateTodolist(todolistid, title)
@@ -109,6 +110,8 @@ export const changeTodolistTitleTC = (todolistid: string, title: string): AppThu
         }
     } catch (e) {
         handleNetworkAppError(e, dispatch)
+    } finally {
+        dispatch(changeTodolistProcessStatusAC(todolistid, "succeeded"))
     }
 }
 
