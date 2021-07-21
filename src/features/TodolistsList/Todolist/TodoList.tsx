@@ -80,7 +80,7 @@ export const TodoList = React.memo((props: PropsType) => {
 
     return (
         <div>
-            <h3>
+            <h3 style={{display:'flex', alignItems: 'center', justifyContent:'space-between'}}>
                 <EditableSpan title={title} onChange={changeTodoListTitleHandler}/>
                 <IconButton
                     aria-label={'delete'}

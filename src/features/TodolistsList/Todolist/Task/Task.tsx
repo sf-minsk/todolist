@@ -36,7 +36,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     return <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done task' : 'task'}>
         <Checkbox checked={task.status === TaskStatuses.Completed} onChange={onChangeStatusHandler} disabled={!processStatus}/>
         <EditableSpan title={task.title} onChange={onChangeTitleHandler} disabled={!processStatus}/>
-        <IconButton aria-label={'delete'} onClick={onRemoveTaskHandler} disabled={!processStatus}>
+        <IconButton aria-label={'delete'} onClick={onRemoveTaskHandler} disabled={!processStatus} style={{}}>
             <Delete/>
         </IconButton>
     </div>
