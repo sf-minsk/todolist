@@ -1,5 +1,5 @@
 import {AddTodoListActionType, RemoveTodoListActionType, SetTodolistActionType} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskPayloadType} from "../api/todolists-api";
 import {AppRootStateType, AppThunkType} from "./store";
 import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {handleNetworkAppError, handleServerAppError} from "../utils/error-utils";
@@ -117,7 +117,7 @@ export const updateTaskTC =
                 console.warn('TASK NOT FOUND!')
                 return
             }
-            const apiModel: UpdateTaskModelType = {
+            const apiModel: UpdateTaskPayloadType = {
                 deadline: task.deadline,
                 description: task.description,
                 priority: task.priority,
