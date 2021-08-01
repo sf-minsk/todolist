@@ -18,7 +18,7 @@ export const authReducer = (state: initialStateType = initialState, action: Logi
 }
 
 //action creators
-const loginAC = (isLoggedIn: boolean) => ({
+export const loginAC = (isLoggedIn: boolean) => ({
     type: 'login/SET-IS-LOGGED-IN',
     isLoggedIn,
 } as const )
@@ -31,7 +31,7 @@ export const loginTC = (data: LoginPayloadType): AppThunkType => async dispatch 
         if (res.data.resultCode === 0) {
             dispatch(loginAC(true))
         } else {
-            // handleServerAppError(res.data.messages[0], dispatch)
+            handleServerAppError(res.data, dispatch)
         }
     } catch (e) {
         handleNetworkAppError(e, dispatch)
@@ -39,6 +39,23 @@ export const loginTC = (data: LoginPayloadType): AppThunkType => async dispatch 
         dispatch(setAppStatusAC('succeeded'))
     }
 }
+export const logoutTC = (): AppThunkType => async dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        const res = await authAPI.logout()
+        if (res.data.resultCode === 0) {
+            dispatch(loginAC(false))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (e) {
+        handleNetworkAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('succeeded'))
+    }
+}
+
+
 
 //types
 export type LoginActionsType =

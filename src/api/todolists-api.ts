@@ -44,7 +44,13 @@ export const todolistsAPI = {
 export const authAPI = {
     login(payload: LoginPayloadType) {
         return instance.post<LoginResponseType>('auth/login', payload)
-    }
+    },
+    logout() {
+        return instance.delete<LogoutResponseType>('auth/login')
+    },
+    me() {
+        return instance.get<MeResponseType>('auth/me')
+    },
 }
 
 
@@ -55,6 +61,7 @@ export enum TaskStatuses {
     Completed = 2,
     Draft = 3
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -109,9 +116,23 @@ export type LoginPayloadType = {
 }
 export type LoginResponseType = {
     resultCode: number
-    messages: Array<number>
+    messages: []
     data: {
         userId: number
+    }
+}
+export type LogoutResponseType = {
+    resultCode: number
+    messages: []
+    data: {}
+}
+export type MeResponseType = {
+    resultCode: number
+    messages: [],
+    data: {
+        id: number,
+        email: string,
+        login: string
     }
 }
 

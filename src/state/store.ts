@@ -3,13 +3,14 @@ import {TaskActionsType, tasksReducer} from "./tasks-reducer";
 import {TodolistActionsType, todoListsReducer} from "./todolists-reducer";
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
 import {AppActionsType, appReducer} from "./app-reducer";
-import {LoginActionsType} from "./auth-reducer";
+import {authReducer, LoginActionsType} from "./auth-reducer";
 
 
 const rootReducer = combineReducers({
     todoLists: todoListsReducer,
     tasks: tasksReducer,
     app: appReducer,
+    auth: authReducer,
 })
 
 type RootActionsType =
