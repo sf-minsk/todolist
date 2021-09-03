@@ -1,44 +1,49 @@
-import {AddTodoListActionType, RemoveTodoListActionType, SetTodolistActionType} from "./todolists-reducer";
+import {
+    addTodolistAC,
+    AddTodoListActionType, removeTodolistAC,
+    RemoveTodoListActionType, removeTodolistTC,
+    SetTodolistActionType, setTodolistsAC
+} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskPayloadType} from "../api/todolists-api";
 import {AppRootStateType} from "./store";
 import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {handleNetworkAppError, handleServerAppError} from "../utils/error-utils";
 import {Dispatch} from "@reduxjs/toolkit";
 
-export const tasksReducer = (state: TasksStateType = {}, action: TaskActionsType): TasksStateType => {
+export const tasksReducer = (state: any = {}, action: any): TasksStateType => {
     switch (action.type) {
         case "TODOLIST/SET-TASKS": {
-            return {...state, [action.todolistId]: action.tasks.map(t => ({...t, processStatus: 'succeeded'}))}
+            return {...state, [action.todolistId]: action.tasks.map((t: any) => ({...t, processStatus: 'succeeded'}))}
         }
         case 'TODOLIST/ADD-TASK': {
             return {...state, [action.task.todoListId]: [{...action.task, processStatus: 'succeeded'}, ...state[action.task.todoListId]]}
         }
         case 'TODOLIST/REMOVE-TASK': {
-            return {...state, [action.todoListId]: state[action.todoListId].filter(t => t.id !== action.taskId)}
+            return {...state, [action.todoListId]: state[action.todoListId].filter((t: { id: any; }) => t.id !== action.taskId)}
         }
         case "TODOLIST/CHANGE-TASK-STATUS": {
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)
+                [action.todolistId]: state[action.todolistId].map((t: { id: any; }) => t.id === action.taskId ? {...t, ...action.model} : t)
             }
         }
         case "TODOLIST/CHANGE-TASK-PROCESS-STATUS": {
             return {...state,
-                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, processStatus: action.processStatus} : t)
+                [action.todolistId]: state[action.todolistId].map((t: { id: any; }) => t.id === action.taskId ? {...t, processStatus: action.processStatus} : t)
             }
         }
 
-        case 'TODOLIST/SET-TODOLISTS': {
+        case setTodolistsAC.type: {
             const stateCopy = {...state}
-            action.todolists.forEach(tl => stateCopy[tl.id] = [])
+            action.payload.todolists.forEach((tl: { id: string | number; }) => stateCopy[tl.id] = [])
             return stateCopy
         }
-        case 'TODOLIST/ADD-TODOLIST': {
-            return {...state, [action.todolist.id]: []}
+        case addTodolistAC.type: {
+            return {...state, [action.payload.todolist.id]: []}
         }
-        case 'TODOLIST/REMOVE-TODOLIST': {
+        case removeTodolistAC.type: {
             const stateCopy = {...state}
-            delete stateCopy[action.todolistId]
+            delete stateCopy[action.payload.todolistId]
             return stateCopy
         }
         default:

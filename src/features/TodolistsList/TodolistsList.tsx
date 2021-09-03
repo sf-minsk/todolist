@@ -11,12 +11,7 @@ import {
     removeTodolistTC,
     TodolistStateType,
 } from "../../state/todolists-reducer";
-import {
-    addTaskTC,
-    removeTaskTC,
-    TasksStateType,
-    updateTaskTC,
-} from "../../state/tasks-reducer";
+import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC,} from "../../state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {TaskStatuses} from "../../api/todolists-api";
@@ -43,7 +38,7 @@ export const TodolistsList: React.FC = () => {
         dispatch(changeTodolistTitleTC(todolistId, title))
     }, [dispatch])
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        dispatch(changeTodolisFilterAC(value, todolistId))
+        dispatch(changeTodolisFilterAC({filter: value, todolistId: todolistId}))
     }, [dispatch])
 
     //tasks actions
