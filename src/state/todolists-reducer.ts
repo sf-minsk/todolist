@@ -29,7 +29,7 @@ const slice = createSlice({
             state[index].filter = action.payload.filter
         },
         changeTodolistProcessStatusAC(state, action: PayloadAction<{ id: string, processStatus: RequestStatusType }>) {
-            const index = state.findIndex(tl => tl.id === action.payload.processStatus)
+            const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].processStatus = action.payload.processStatus
         },
     }
