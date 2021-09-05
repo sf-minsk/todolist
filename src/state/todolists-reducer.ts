@@ -17,7 +17,7 @@ const slice = createSlice({
         removeTodolistAC(state, action: PayloadAction<{ todolistId: string }>) {
             const index = state.findIndex(tl => tl.id === action.payload.todolistId)
             if (index > -1) {
-                state.slice(index, 1)
+                state.splice(index, 1)
             }
         },
         changeTodolistTitleAC(state, action: PayloadAction<{ todolistId: string, todolistTitle: string }>) {
@@ -102,8 +102,5 @@ export type TodolistStateType = TodolistType & {
     filter: FilterValuesType,
     processStatus: RequestStatusType,
 }
-export type SetTodolistActionType = ReturnType<typeof setTodolistsAC>
-export type AddTodoListActionType = ReturnType<typeof addTodolistAC>
-export type RemoveTodoListActionType = ReturnType<typeof removeTodolistAC>
 
 
