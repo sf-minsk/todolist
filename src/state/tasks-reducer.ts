@@ -3,8 +3,14 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskPayloadT
 import {AppRootStateType} from "./store";
 import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {handleNetworkAppError, handleServerAppError} from "../utils/error-utils";
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
+
+export const fetchTasksTC = createAsyncThunk('tasks/fetchTasksTC', () => {
+
+})
+
+//slice
 const slice = createSlice({
     name: 'tasks',
     initialState: {} as TasksStateType,
@@ -51,47 +57,9 @@ const slice = createSlice({
         })
     },
 })
-
-
-// export const _tasksReducer = (state: TasksStateType = {}, action: any): TasksStateType => {
-//     switch (action.type) {
-//         case "TODOLIST/SET-TASKS": {
-//             return {...state, [action.todolistId]: action.tasks.map((t: any) => ({...t, processStatus: 'succeeded'}))}
-//         }
-//         case 'TODOLIST/ADD-TASK': {
-//             return {
-//                 ...state,
-//                 [action.task.todoListId]: [{
-//                     ...action.task,
-//                     processStatus: 'succeeded'
-//                 }, ...state[action.task.todoListId]]
-//             }
-//         }
-//         case 'TODOLIST/REMOVE-TASK': {
-//             return {
-//                 ...state,
-//                 [action.todoListId]: state[action.todoListId].filter((t: { id: any; }) => t.id !== action.taskId)
-//             }
-//         }
-//         case "TODOLIST/CHANGE-TASK-STATUS": {
-//             return {
-//                 ...state,
-//                 [action.todolistId]: state[action.todolistId].map((t: { id: any; }) => t.id === action.taskId ? {...t, ...action.model} : t)
-//             }
-//         }
-//         case "TODOLIST/CHANGE-TASK-PROCESS-STATUS": {
-//             return {
-//                 ...state,
-//                 [action.todolistId]: state[action.todolistId].map((t: { id: any; }) => t.id === action.taskId ? {
-//                     ...t,
-//                     processStatus: action.processStatus
-//                 } : t)
-//             }
-//         }
-
-
+//reducer
 export const tasksReducer = slice.reducer
-
+//actions
 const {
     setTasksAC,
     addTaskAC,
@@ -99,8 +67,8 @@ const {
     updateTaskAC,
     changeTaskProcessStatusAC
 } = slice.actions
-
-export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
+//thunks
+export const _fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     const res = await todolistsAPI.getTasks(todolistId)
     dispatch(setTasksAC({tasks: res.data.items, todolistId: todolistId}))
