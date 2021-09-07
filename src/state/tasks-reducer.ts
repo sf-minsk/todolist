@@ -44,6 +44,7 @@ export const removeTaskTC = createAsyncThunk('tasks/removeTaskTC', async (param:
     }
 })
 export const updateTaskTC = createAsyncThunk('tasks/updateTaskTC', async (param: { todolistId: string, taskId: string, domainTaskModel: UpdateDomainTaskModelType }, thunkAPI) => {
+    // @ts-ignore
     const task = thunkAPI.getState().tasks[param.todolistId].find(t => t.id === param.taskId)
     if (!task) {
         console.warn('TASK NOT FOUND!')
@@ -93,14 +94,6 @@ const slice = createSlice({
     name: 'tasks',
     initialState: {} as TasksStateType,
     reducers: {
-
-        // updateTaskAC(state, action: PayloadAction<{ todolistId: string, taskId: string, model: UpdateDomainTaskModelType }>) {
-        //     const tasks = state[action.payload.todolistId]
-        //     const index = tasks.findIndex(t => t.id === action.payload.taskId)
-        //     if (index > -1) {
-        //         tasks[index] = {...tasks[index], ...action.payload.model}
-        //     }
-        // },
         changeTaskProcessStatusAC(state, action: PayloadAction<{ todolistId: string, taskId: string, processStatus: RequestStatusType }>) {
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex(t => t.id === action.payload.taskId)
@@ -130,14 +123,24 @@ const slice = createSlice({
         })
         builder.addCase(removeTaskTC.fulfilled, (state, action) => {
             if (action.payload) {
-                const tasks = state[action.payload.todoListId]
-                const index = tasks.findIndex(t => t.id === action.payload.taskId)
+                const {taskId, todoListId} = action.payload;
+                const tasks = state[todoListId]
+                const index = tasks.findIndex(t => t.id === taskId)
                 if (index > -1) {
                     tasks.splice(index, 1)
                 }
             }
         })
-
+        builder.addCase(updateTaskTC.fulfilled, (state, action) => {
+            if (action.payload) {
+                const tasks = state[action.payload.todolistId]
+                const {taskId} = action.payload;
+                const index = tasks.findIndex(t => t.id === taskId)
+                if (index > -1) {
+                    tasks[index] = {...tasks[index], ...action.payload.model}
+                }
+            }
+        })
     },
 })
 //reducer
@@ -146,7 +149,6 @@ export const tasksReducer = slice.reducer
 const {
     changeTaskProcessStatusAC
 } = slice.actions
-
 //types
 type UpdateDomainTaskModelType = {
     title?: string
