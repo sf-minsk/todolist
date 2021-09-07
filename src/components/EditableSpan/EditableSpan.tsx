@@ -26,6 +26,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
 
     return editMode
         ? <TextField
+            style={{width: '180px'}}
             value={title}
             onBlur={activateViewMode}
             autoFocus
