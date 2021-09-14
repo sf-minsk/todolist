@@ -39,6 +39,7 @@ export const loginTC = (data: LoginPayloadType): AppThunkType => async dispatch 
         dispatch(setAppStatusAC('succeeded'))
     }
 }
+
 export const logoutTC = (): AppThunkType => async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {
