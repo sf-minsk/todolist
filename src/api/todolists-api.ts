@@ -43,13 +43,13 @@ export const todolistsAPI = {
 
 export const authAPI = {
     login(payload: LoginPayloadType) {
-        return instance.post<LoginResponseType>('auth/login', payload)
+        return instance.post<ResponseType<{userID?: number}>>('auth/login', payload)
     },
     logout() {
-        return instance.delete<LogoutResponseType>('auth/login')
+        return instance.delete<ResponseType<{userID?: number}>>('auth/login')
     },
     me() {
-        return instance.get<MeResponseType>('auth/me')
+        return instance.get<ResponseType<{id: number; email: string; login: string}>>('auth/me')
     },
 }
 
@@ -80,6 +80,7 @@ export type TodolistType = {
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
+    fieldsErrors?: Array<{field: string; error: string}>
     data: D
 }
 type GetTasksResponse = {

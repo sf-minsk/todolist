@@ -1,11 +1,17 @@
 import React from 'react'
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
+import {FormikHelpers, useFormik} from "formik";
 import {loginTC} from "../../state/auth-reducer";
+import {useAppDispatch} from "../../state/store";
+
+type FormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 export const Login = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     type FormikErrorsType = {
         email?: string
         password?: string
@@ -31,9 +37,14 @@ export const Login = () => {
             }
             return errors
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
-            formik.resetForm()
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
+            const res = await dispatch(loginTC(values))
+            if (loginTC.rejected.match(res)) {
+                if (res.payload?.fieldsErrors?.length) {
+                    const error = res.payload.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
         },
     })
     return <Grid container justify="center">
